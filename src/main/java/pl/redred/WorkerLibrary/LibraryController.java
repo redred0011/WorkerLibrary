@@ -22,6 +22,10 @@ public class LibraryController {
         return workerRepository.getById(id);
     }
 
+<<<<<<< HEAD
+=======
+    @PostMapping("")
+>>>>>>> 872b4e4 (next commit added method "add")
     public int add(@RequestBody List<Worker>workers){
         return workerRepository.save(workers);
     }
