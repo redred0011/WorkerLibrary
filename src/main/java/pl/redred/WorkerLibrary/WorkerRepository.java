@@ -29,6 +29,14 @@ public class WorkerRepository {
                         worker.getFirstName(),worker.getLastName(),worker.getPosition(),worker.getSalary()));
         return 1;
     }
+    public int update(Worker worker){
+        return jdbcTemplate.update("UPDATE worker SET firstName = ?, lastName = ?, position = ?, salary = ? WHERE id = ?",
+                worker.getFirstName(), worker.getLastName(), worker.getPosition(), worker.getSalary(), worker.getId());
+    }
+
+    public int delete(int id){
+        return jdbcTemplate.update("DELETE FROM worker WHERE id = ?",id );
+    }
 
 
 }
