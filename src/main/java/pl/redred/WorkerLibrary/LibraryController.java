@@ -22,6 +22,7 @@ public class LibraryController {
         return workerRepository.getById(id);
     }
 
+    @PostMapping("")
     public int add(@RequestBody List<Worker>workers){
         return workerRepository.save(workers);
     }
@@ -33,6 +34,7 @@ public class LibraryController {
             worker.setLastName(updateWorker.getLastName());
             worker.setPosition(updateWorker.getPosition());
             worker.setSalary(worker.getSalary());
+            workerRepository.update(worker);
         }else{
             return -1;
         }
