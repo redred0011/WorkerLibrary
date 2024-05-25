@@ -32,7 +32,7 @@ public class WorkerService {
 
     public void update(int id, Worker updateWorker) {
         try {
-            Worker worker = workerRepository.findById(id)
+            Worker worker = workerRepository.findWithLockingById(id)
                     .orElseThrow(() -> new WorkerNotFoundException("Worker with id " + id + " not found"));
 
             worker.setFirstName(updateWorker.getFirstName());
@@ -47,7 +47,7 @@ public class WorkerService {
 
     public void partiallyUpdate(int id, Worker updatedWorker) {
         try {
-            Worker worker = workerRepository.findById(id)
+            Worker worker = workerRepository.findWithLockingById(id)
                     .orElseThrow(() -> new WorkerNotFoundException("Worker with id " + id + " not found"));
 
             if (updatedWorker.getFirstName() != null) worker.setFirstName(updatedWorker.getFirstName());
