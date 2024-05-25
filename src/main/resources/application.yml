@@ -1,12 +1,19 @@
 spring:
+  profiles:
+    active: local
   datasource:
-    url: jdbc:mysql://localhost:3306/workerdb
-    username: root
-    password: root
+    url: jdbc:h2:mem:BookAlerts
+    username: sa
+    password: password
+    driver-class-name: org.h2.Driver
+  liquibase:
+    change-log: classpath:db/changelog-master.xml
+    enabled: true
+    drop-first: true
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
   jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
+    database:
+    database-platform: org.hibernate.dialect.H2Dialect

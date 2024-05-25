@@ -2,58 +2,65 @@ package org.example.WorkerLibrary.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.WorkerLibrary.Model.Worker;
+import org.example.WorkerLibrary.Model.command.CreateWorkerCommand;
+import org.example.WorkerLibrary.Model.command.PartiallyUpdateWorkerCommand;
+import org.example.WorkerLibrary.Model.command.UpdateWorkerCommand;
+import org.example.WorkerLibrary.Model.dto.WorkerDto;
 import org.example.WorkerLibrary.exception.WorkerNotFoundException;
 import org.example.WorkerLibrary.exception.WorkerPartiallyUpdateException;
 import org.example.WorkerLibrary.exception.WorkerUpdateException;
+import org.example.WorkerLibrary.mapper.WorkerMapper;
 import org.example.WorkerLibrary.repository.WorkerRepository;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class WorkerService {
 
     private final WorkerRepository workerRepository;
+    private final WorkerMapper workerMapper;
 
-    public List<Worker> getAll() {
-        return workerRepository.findAll();
+    public List<WorkerDto> getAll() {
+        return workerRepository.findAll().stream()
+                .map(workerMapper::toDto)
+                .collect(Collectors.toList());
     }
 
-    public Worker getById(int id) {
-        return workerRepository.findById(id)
+    public WorkerDto getById(int id) {
+        Worker worker = workerRepository.findById(id)
                 .orElseThrow(() -> new WorkerNotFoundException("Worker with id " + id + " not found"));
+        return workerMapper.toDto(worker);
     }
 
-    public void add(List<Worker> workers) {
+    public void add(List<CreateWorkerCommand> createWorkerCommands) {
+        List<Worker> workers = createWorkerCommands.stream()
+                .map(workerMapper::toEntity)
+                .collect(Collectors.toList());
         workerRepository.saveAll(workers);
     }
 
-    public void update(int id, Worker updateWorker) {
+    public void update(int id, UpdateWorkerCommand updateWorkerCommand) {
         try {
-            Worker worker = workerRepository.findWithLockingById(id)
+            Worker worker = workerRepository.findById(id)
                     .orElseThrow(() -> new WorkerNotFoundException("Worker with id " + id + " not found"));
 
-            worker.setFirstName(updateWorker.getFirstName());
-            worker.setLastName(updateWorker.getLastName());
-            worker.setPosition(updateWorker.getPosition());
-            worker.setSalary(updateWorker.getSalary());
+            workerMapper.updateEntity(updateWorkerCommand, worker);
             workerRepository.save(worker);
         } catch (DataAccessException e) {
             throw new WorkerUpdateException("Error updating worker with id " + id);
         }
     }
 
-    public void partiallyUpdate(int id, Worker updatedWorker) {
+    public void partiallyUpdate(int id, PartiallyUpdateWorkerCommand partiallyUpdateWorkerCommand) {
         try {
-            Worker worker = workerRepository.findWithLockingById(id)
+            Worker worker = workerRepository.findById(id)
                     .orElseThrow(() -> new WorkerNotFoundException("Worker with id " + id + " not found"));
 
-            if (updatedWorker.getFirstName() != null) worker.setFirstName(updatedWorker.getFirstName());
-            if (updatedWorker.getLastName() != null) worker.setLastName(updatedWorker.getLastName());
-            if (updatedWorker.getPosition() != null) worker.setPosition(updatedWorker.getPosition());
-            if (updatedWorker.getSalary() > 0) worker.setSalary(updatedWorker.getSalary());
+            workerMapper.partiallyUpdateEntity(partiallyUpdateWorkerCommand, worker);
             workerRepository.save(worker);
         } catch (DataAccessException e) {
             throw new WorkerPartiallyUpdateException("Error partially updating worker with id " + id);
@@ -67,11 +74,15 @@ public class WorkerService {
         workerRepository.deleteById(id);
     }
 
-    public List<Worker> searchSalary(double salary) {
-        return workerRepository.findBySalaryGreaterThan(salary);
+    public List<WorkerDto> searchSalary(double salary) {
+        return workerRepository.findBySalaryGreaterThan(salary).stream()
+                .map(workerMapper::toDto)
+                .collect(Collectors.toList());
     }
 
-    public List<Worker> searchPosition(String position) {
-        return workerRepository.findByPosition(position);
+    public List<WorkerDto> searchPosition(String position) {
+        return workerRepository.findByPosition(position).stream()
+                .map(workerMapper::toDto)
+                .collect(Collectors.toList());
     }
 }
