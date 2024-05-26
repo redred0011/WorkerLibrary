@@ -12,6 +12,7 @@ import org.example.WorkerLibrary.exception.WorkerUpdateException;
 import org.example.WorkerLibrary.mapper.WorkerMapper;
 import org.example.WorkerLibrary.repository.WorkerRepository;
 import org.springframework.dao.DataAccessException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,18 +25,21 @@ public class WorkerService {
     private final WorkerRepository workerRepository;
     private final WorkerMapper workerMapper;
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public List<WorkerDto> getAll() {
         return workerRepository.findAll().stream()
                 .map(workerMapper::toDto)
                 .collect(Collectors.toList());
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public WorkerDto getById(int id) {
         Worker worker = workerRepository.findById(id)
                 .orElseThrow(() -> new WorkerNotFoundException("Worker with id " + id + " not found"));
         return workerMapper.toDto(worker);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public void add(List<CreateWorkerCommand> createWorkerCommands) {
         List<Worker> workers = createWorkerCommands.stream()
                 .map(workerMapper::toEntity)
@@ -43,6 +47,7 @@ public class WorkerService {
         workerRepository.saveAll(workers);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public void update(int id, UpdateWorkerCommand updateWorkerCommand) {
         try {
             Worker worker = workerRepository.findById(id)
@@ -55,6 +60,7 @@ public class WorkerService {
         }
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public void partiallyUpdate(int id, PartiallyUpdateWorkerCommand partiallyUpdateWorkerCommand) {
         try {
             Worker worker = workerRepository.findById(id)
@@ -67,6 +73,7 @@ public class WorkerService {
         }
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public void delete(int id) {
         if (!workerRepository.existsById(id)) {
             throw new WorkerNotFoundException("Worker with id " + id + " not found");
@@ -74,12 +81,14 @@ public class WorkerService {
         workerRepository.deleteById(id);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public List<WorkerDto> searchSalary(double salary) {
         return workerRepository.findBySalaryGreaterThan(salary).stream()
                 .map(workerMapper::toDto)
                 .collect(Collectors.toList());
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public List<WorkerDto> searchPosition(String position) {
         return workerRepository.findByPosition(position).stream()
                 .map(workerMapper::toDto)
