@@ -11,8 +11,8 @@
 	<groupId>org.example</groupId>
 	<artifactId>world_windsufers</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>World Windsufers Weather Service</name>
-	<description>World Windsufers Weather Service</description>
+	<name>WorkerLibrary</name>
+	<description>WorkerLibrary</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
@@ -67,6 +67,15 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
