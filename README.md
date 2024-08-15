@@ -1,89 +1,45 @@
 # WorkerLibrary
 
-WorkerLibrary to aplikacja Java - REST API, SPRING BOOT, DOCKER, MySQL, JDBC która zarządza pracownikami w bazie danych. 
-Pozwala na pobieranie, dodawanie, aktualizowanie i usuwanie pracowników oraz wyszukiwanie pracowników na podstawie różnych kryteriów.
+**WorkerLibrary** is a Java-based application that provides a REST API for managing employee data within a database, built with Spring Boot, Docker, MySQL, and JDBC. The application allows you to retrieve, add, update, and delete employee records, as well as search for employees based on various criteria.
 
-## Klasa WorkerRepository
+## WorkerRepository Class
 
-`WorkerRepository` to klasa odpowiedzialna za dostęp do danych pracowników w bazie danych. Udostępnia następujące funkcje:
+The `WorkerRepository` class is responsible for accessing and managing employee data in the database. It offers the following methods:
 
-### `getAll()`
+- **`getAll()`**: Returns a list of all employees in the database.
+- **`getById(int id)`**: Returns an employee based on the provided ID.
+- **`save(List<Worker> workers)`**: Saves a list of employees to the database.
+- **`update(Worker worker)`**: Updates an employee's data in the database.
+- **`delete(int id)`**: Deletes an employee based on the provided ID.
+- **`searchSalary(double searchSalary)`**: Returns employees who earn a salary higher than the specified amount.
+- **`searchPosition(String position)`**: Returns employees holding the specified position.
 
-Metoda zwracająca listę wszystkich pracowników w bazie danych.
+## Worker Class
 
-### `getById(int id)`
+The `Worker` class represents an employee entity. It contains fields such as ID, first name, last name, position, and salary. The class includes constructors and methods for validating employee data.
 
-Metoda zwracająca pracownika na podstawie podanego ID.
+## LibraryController Class
 
-### `save(List<Worker> workers)`
+The `LibraryController` class is a REST API controller that handles operations related to employees. It provides the following endpoints:
 
-Metoda zapisująca listę pracowników do bazy danych.
+- **`GET /library`**: Returns a list of all employees.
+- **`GET /library/{id}`**: Returns an employee based on the provided ID.
+- **`POST /library`**: Adds a list of employees to the database.
+- **`PUT /library/{id}`**: Updates an employee's data based on the provided ID.
+- **`PATCH /library/{id}`**: Partially updates an employee's data based on the provided ID.
+- **`DELETE /library/{id}`**: Deletes an employee based on the provided ID.
+- **`POST /library/salary/{salary}`**: Searches for employees who earn more than the specified salary.
+- **`POST /library/position/{position}`**: Searches for employees holding the specified position.
 
-### `update(Worker worker)`
+## Tools Used for Development
 
-Metoda aktualizująca dane pracownika w bazie danych.
+- **IntelliJ IDEA**
+- **Docker Desktop**
+- **MySQL Workbench**
+- **Postman**
 
-### `delete(int id)`
-
-Metoda usuwająca pracownika na podstawie podanego ID.
-
-### `searchSalary(double searchSalary)`
-
-Metoda zwracająca pracowników, którzy zarabiają wyższą pensję niż podana pensja.
-
-### `searchPosition(String position)`
-
-Metoda zwracająca pracowników o podanym stanowisku.
-
-## Klasa Worker
-
-`Worker` to klasa reprezentująca pracownika. Zawiera pola takie jak ID, imię, nazwisko, stanowisko i pensja. Posiada konstruktory oraz metody do walidacji danych pracownika.
-
-## Klasa LibraryController
-
-`LibraryController` to kontroler REST API obsługujący operacje na pracownikach. Udostępnia następujące endpointy:
-
-### `GET /library`
-
-Zwraca listę wszystkich pracowników.
-
-### `GET /library/{id}`
-
-Zwraca pracownika na podstawie ID.
-
-### `POST /library`
-
-Dodaje listę pracowników do bazy danych.
-
-### `PUT /library/{id}`
-
-Aktualizuje dane pracownika na podstawie ID.
-
-### `PATCH /library/{id}`
-
-Częściowo aktualizuje dane pracownika na podstawie ID.
-
-### `DELETE /library/{id}`
-
-Usuwa pracownika na podstawie ID.
-
-### `POST /library/salary/{salary}`
-
-Wyszukuje pracowników, którzy zarabiają więcej niż podana pensja.
-
-### `POST /library/position/{position}`
-
-Wyszukuje pracowników o podanym stanowisku.
-
-## Programy wykorzystane do tworzenia:
-
-1. IntelliJ IDE
-2. DockerDesktop
-3. MySQL Workbench
-4. Postman 
-
-Dzięki tej aplikacji możesz zarządzać pracownikami w bazie danych w prosty sposób. W razie problemów lub pytań, skontaktuj się z autorem.
+This application simplifies the management of employee data within a database. For any issues or questions, please contact the author.
 
 ---
 
-Autor: [redred0011](https://github.com/redred0011)
+**Author**: [redred0011](https://github.com/redred0011)
