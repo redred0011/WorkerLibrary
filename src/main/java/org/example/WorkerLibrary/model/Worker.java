@@ -1,4 +1,4 @@
-package org.example.WorkerLibrary.Model;
+package org.example.WorkerLibrary.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

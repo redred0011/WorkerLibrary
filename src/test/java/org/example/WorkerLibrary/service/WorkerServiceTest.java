@@ -1,10 +1,10 @@
 package org.example.WorkerLibrary.service;
 
-import org.example.WorkerLibrary.Model.Worker;
-import org.example.WorkerLibrary.Model.command.CreateWorkerCommand;
-import org.example.WorkerLibrary.Model.command.PartiallyUpdateWorkerCommand;
-import org.example.WorkerLibrary.Model.command.UpdateWorkerCommand;
-import org.example.WorkerLibrary.Model.dto.WorkerDto;
+import org.example.WorkerLibrary.model.Worker;
+import org.example.WorkerLibrary.model.command.CreateWorkerCommand;
+import org.example.WorkerLibrary.model.command.PartiallyUpdateWorkerCommand;
+import org.example.WorkerLibrary.model.command.UpdateWorkerCommand;
+import org.example.WorkerLibrary.model.dto.WorkerDto;
 import org.example.WorkerLibrary.exception.WorkerNotFoundException;
 import org.example.WorkerLibrary.mapper.WorkerMapper;
 import org.example.WorkerLibrary.repository.WorkerRepository;

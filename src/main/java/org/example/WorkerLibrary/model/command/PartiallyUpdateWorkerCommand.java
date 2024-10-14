@@ -1,4 +1,4 @@
-package org.example.WorkerLibrary.Model.command;
+package org.example.WorkerLibrary.model.command;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -12,7 +12,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateWorkerCommand {
+public class PartiallyUpdateWorkerCommand {
     @NotBlank(message = "First name is mandatory")
     private String firstName;
 

@@ -1,4 +1,4 @@
-package org.example.WorkerLibrary.Model.dto;
+package org.example.WorkerLibrary.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

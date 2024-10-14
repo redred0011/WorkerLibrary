@@ -1,4 +1,4 @@
-package org.example.WorkerLibrary.Model.command;
+package org.example.WorkerLibrary.model.command;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
