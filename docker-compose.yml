@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: mysql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: bartek
+      MYSQL_DATABASE: sys
+      MYSQL_USER: root
+      MYSQL_PASSWORD: bartek
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - spring-net
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: spring-app
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/sys
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: bartek
+      SPRING_PROFILES_ACTIVE: local
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    networks:
+      - spring-net
+
+networks:
+  spring-net:
+
+volumes:
+  db_data:

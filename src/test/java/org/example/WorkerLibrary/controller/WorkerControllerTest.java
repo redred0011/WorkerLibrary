@@ -13,10 +13,10 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.example.WorkerLibrary.repository.WorkerRepository;
-import org.example.WorkerLibrary.Model.Worker;
-import org.example.WorkerLibrary.Model.command.CreateWorkerCommand;
-import org.example.WorkerLibrary.Model.command.UpdateWorkerCommand;
-import org.example.WorkerLibrary.Model.command.PartiallyUpdateWorkerCommand;
+import org.example.WorkerLibrary.model.Worker;
+import org.example.WorkerLibrary.model.command.CreateWorkerCommand;
+import org.example.WorkerLibrary.model.command.UpdateWorkerCommand;
+import org.example.WorkerLibrary.model.command.PartiallyUpdateWorkerCommand;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

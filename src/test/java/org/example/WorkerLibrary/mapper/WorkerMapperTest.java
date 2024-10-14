@@ -1,10 +1,10 @@
 package org.example.WorkerLibrary.mapper;
 
-import org.example.WorkerLibrary.Model.Worker;
-import org.example.WorkerLibrary.Model.command.CreateWorkerCommand;
-import org.example.WorkerLibrary.Model.command.PartiallyUpdateWorkerCommand;
-import org.example.WorkerLibrary.Model.command.UpdateWorkerCommand;
-import org.example.WorkerLibrary.Model.dto.WorkerDto;
+import org.example.WorkerLibrary.model.Worker;
+import org.example.WorkerLibrary.model.command.CreateWorkerCommand;
+import org.example.WorkerLibrary.model.command.PartiallyUpdateWorkerCommand;
+import org.example.WorkerLibrary.model.command.UpdateWorkerCommand;
+import org.example.WorkerLibrary.model.dto.WorkerDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mapstruct.factory.Mappers;

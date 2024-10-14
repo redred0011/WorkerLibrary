@@ -1,11 +1,11 @@
 package org.example.WorkerLibrary.service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.WorkerLibrary.Model.Worker;
-import org.example.WorkerLibrary.Model.command.CreateWorkerCommand;
-import org.example.WorkerLibrary.Model.command.PartiallyUpdateWorkerCommand;
-import org.example.WorkerLibrary.Model.command.UpdateWorkerCommand;
-import org.example.WorkerLibrary.Model.dto.WorkerDto;
+import org.example.WorkerLibrary.model.Worker;
+import org.example.WorkerLibrary.model.command.CreateWorkerCommand;
+import org.example.WorkerLibrary.model.command.PartiallyUpdateWorkerCommand;
+import org.example.WorkerLibrary.model.command.UpdateWorkerCommand;
+import org.example.WorkerLibrary.model.dto.WorkerDto;
 import org.example.WorkerLibrary.exception.WorkerNotFoundException;
 import org.example.WorkerLibrary.exception.WorkerPartiallyUpdateException;
 import org.example.WorkerLibrary.exception.WorkerUpdateException;
@@ -34,9 +34,8 @@ public class WorkerService {
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public WorkerDto getById(int id) {
-        Worker worker = workerRepository.findById(id)
-                .orElseThrow(() -> new WorkerNotFoundException("Worker with id " + id + " not found"));
-        return workerMapper.toDto(worker);
+        return workerMapper.toDto(workerRepository.findById(id)
+                .orElseThrow(() -> new WorkerNotFoundException("Worker with id " + id + " not found")));
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
@@ -44,16 +43,19 @@ public class WorkerService {
         List<Worker> workers = createWorkerCommands.stream()
                 .map(workerMapper::toEntity)
                 .collect(Collectors.toList());
-        workerRepository.saveAll(workers);
+        try {
+            workerRepository.saveAll(workers);
+        } catch (DataAccessException e) {
+            throw new WorkerUpdateException("Error save");
+        }
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public void update(int id, UpdateWorkerCommand updateWorkerCommand) {
+        Worker worker = workerRepository.findById(id)
+                .orElseThrow(() -> new WorkerNotFoundException("Worker with id " + id + " not found"));
+        workerMapper.updateEntity(updateWorkerCommand, worker);
         try {
-            Worker worker = workerRepository.findById(id)
-                    .orElseThrow(() -> new WorkerNotFoundException("Worker with id " + id + " not found"));
-
-            workerMapper.updateEntity(updateWorkerCommand, worker);
             workerRepository.save(worker);
         } catch (DataAccessException e) {
             throw new WorkerUpdateException("Error updating worker with id " + id);
@@ -62,11 +64,11 @@ public class WorkerService {
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public void partiallyUpdate(int id, PartiallyUpdateWorkerCommand partiallyUpdateWorkerCommand) {
-        try {
-            Worker worker = workerRepository.findById(id)
-                    .orElseThrow(() -> new WorkerNotFoundException("Worker with id " + id + " not found"));
+        Worker worker = workerRepository.findById(id)
+                .orElseThrow(() -> new WorkerNotFoundException("Worker with id " + id + " not found"));
+        workerMapper.partiallyUpdateEntity(partiallyUpdateWorkerCommand, worker);
 
-            workerMapper.partiallyUpdateEntity(partiallyUpdateWorkerCommand, worker);
+        try {
             workerRepository.save(worker);
         } catch (DataAccessException e) {
             throw new WorkerPartiallyUpdateException("Error partially updating worker with id " + id);
